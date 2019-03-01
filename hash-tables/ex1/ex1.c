@@ -8,32 +8,33 @@ Answer *get_indices_of_item_weights(int *weights, int length, int limit)
   HashTable *ht = create_hash_table(16);
 
   // YOUR CODE HERE
-  // allocate space for returned answer
-  Answer *answer = malloc(sizeof(Answer *));
 
-  // if length is less than 2, just return NULL
-  if (length < 2)
-  {
-    return NULL;
-  }
-
-  // for loop to check each hash_table_retrieve call
+  // loop through length times
   for (int i = 0; i < length; i++)
   {
-    printf("+{KEY: %d: VALUE: %d}.\n", i, weights[i]);
 
-    int diff = limit - weights[i];
-    printf("%d - %d = %d\n", limit, weights[i], diff);
-
-    // Current issue is this returns the index, and not the value
-    int d = hash_table_retrieve(ht, weights[i]);
-    printf("hash_table_retrieve() returns: %d.\n\n", d);
+    int complement = hash_table_retrieve(ht, limit - weights[i]);
+    // check if limit - weights[i]
+    if (complement != -1)
+    {
+      // allocate space for returned answer
+      Answer *answer = malloc(sizeof(Answer *));
+      // fill in the Answer struct
+      answer->index_1 = i;
+      answer->index_2 = complement;
+      // free ht
+      destroy_hash_table(ht);
+      // return answer
+      return answer;
+    }
+    else
+    {
+      // insert weights[i] into the ht
+      hash_table_insert(ht, weights[i], i);
+    }
   }
-
-  printf("Length: %d\n", length);
-  printf("Limit: %d\n", limit);
-  printf(",,,,,.......--------=========--------.......,,,,,\n\n");
-
+  // free ht
+  destroy_hash_table(ht);
   return NULL;
 }
 
