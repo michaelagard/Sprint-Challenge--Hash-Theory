@@ -8,25 +8,26 @@ Answer *get_indices_of_item_weights(int *weights, int length, int limit)
   HashTable *ht = create_hash_table(16);
 
   // YOUR CODE HERE
-  // store each weight in the input list as keys
-  // store each weight's list index as its value, we can then check
-  // to see if the hash table contains an entry for limit - weight
+  // allocate space for returned answer
+  Answer *answer = malloc(sizeof(Answer *));
+
   // if length is less than 2, just return NULL
   if (length < 2)
   {
     return NULL;
   }
-  // for loop to add all weights and indicies to the hash table
+
+  // for loop to check each hash_table_retrieve call
   for (int i = 0; i < length; i++)
   {
-    hash_table_insert(ht, weights[i], i);
-    printf("+{KEY: %d: VALUE: %d}.\n", weights[i], i);
+    printf("+{KEY: %d: VALUE: %d}.\n", i, weights[i]);
 
     int diff = limit - weights[i];
     printf("%d - %d = %d\n", limit, weights[i], diff);
 
+    // Current issue is this returns the index, and not the value
     int d = hash_table_retrieve(ht, weights[i]);
-    printf("hash_table_retrieve() returns: %d.\n", d);
+    printf("hash_table_retrieve() returns: %d.\n\n", d);
   }
 
   printf("Length: %d\n", length);
