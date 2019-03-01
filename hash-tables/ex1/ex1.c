@@ -11,19 +11,22 @@ Answer *get_indices_of_item_weights(int *weights, int length, int limit)
   // store each weight in the input list as keys
   // store each weight's list index as its value, we can then check
   // to see if the hash table contains an entry for limit - weight
+  // if length is less than 2, just return NULL
   if (length < 2)
   {
     return NULL;
   }
+  // for loop to add all weights and indicies to the hash table
   for (int i = 0; i < length; i++)
   {
-    if (weights[i] != NULL)
-    {
-      hash_table_insert(ht, weights[i], i);
-      printf("+{KEY: %d: VALUE: %d}.\n", weights[i], i);
-      int diff = weights[i] - i;
-      printf("%d - %d = %d\n", weights[i], i, diff);
-    }
+    hash_table_insert(ht, weights[i], i);
+    printf("+{KEY: %d: VALUE: %d}.\n", weights[i], i);
+
+    int diff = limit - weights[i];
+    printf("%d - %d = %d\n", limit, weights[i], diff);
+
+    int d = hash_table_retrieve(ht, weights[i]);
+    printf("hash_table_retrieve() returns: %d.\n", d);
   }
 
   printf("Length: %d\n", length);
